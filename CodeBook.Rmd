@@ -1,0 +1,73 @@
+---
+title: "Code Book for run_analysis.R"
+author: "Andrea Liang"
+date: "Monday, November 24, 2014"
+output: pdf_document
+---
+
+## Variables
+
+- **activity** - Physical activity performed by subject. Class: Factor. 
+
+        1. Walking
+        2. Walking Upstairs
+        3. Walking Downstairs
+        4. Sitting
+        5. Standing
+        6. Laying
+
+- **Axis** - Axis of movement that was measured. Class: Character. 
+
+        X. X-axis
+        Y. Y-axis
+        Z. Z-axis
+        Mag. Magnitude of movement measured = (X^2 + Y^2 + Z^2)^(1/2)
+
+- **Component** - Component of the acceleration signal. Class: Character.
+        
+        Body. Body motion
+        Grav. Gravity
+        
+- **Device** - Device with which the measurement was captured. Class: Character.
+        
+        Acc. Accelerometer. Measures body motion and gravity linear acceleration
+        Gyr. Gyroscope. Measures body motion angular velocity
+        
+- **DomainSignal** - Indicates whether measurement was made with respect to time or frequency. Class: Character.
+        
+        t. Time
+        f. Frequency. Derived from the time domain signal through a Fast Fourier Transform.
+        
+- **Jerk** - Whether measurements were subsequently derived in time to obtain "Jerk" signals. Class: Character.
+
+        0. Measurement in question is not a "Jerk" signal
+        1. Measurement in question is a "Jerk" signal
+  
+- **mean(Measurement)** - The mean for all measurements taken by variable. Each measurement was normalised and bounded by [-1,1]. Class: Numeric.
+                 
+- **Measure** - Mean or Standard Deviation of measurements taken. Class: Character.
+        
+        mean. Mean
+        std. Standard Deviation
+        
+- **subject** - Subject ID. Class: Integer.
+        
+## More Information on the Original Data
+
+Experiments were carried out with a group of 30 subjects, aged 19-48 years. Each person performed six activities (see variable: activity) wearing a smartphone (Samsung Galaxy S II) on his or her waist. For each activity, the smartphone captured 3-axial (i.e. X-axis, Y-axis and Z-axis) linear acceleration (using its embedded accelerometer) and 3-axial angular velocity (using its embedded gyroscope). The acceleration measurement was further separated into acceleration attributable to body motion, and acceleration attributable to gravity. (Note that the angular velocity measurement is wholly attributable to body motion.)
+
+The magnitude of the 3-axial signals was derived using the Euclidean norm (see variable: Axis).
+
+The initial raw measurements were captured at a constant rate of 50 Hertz, i.e. in the time domain. They were then filtered using a median filter and a third order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. 
+
+The **body motion** linear acceleration and angular velocity measurements were derived in time to obtain Jerk signals. 
+
+Finally, a Fast Fourier Transform was applied to all the body motion signals to obtain frequency domain signals. 
+
+## Steps Taken to Analyse Data
+
+The data downloaded from the internet had been split into "test" and "train" datasets. These datasets were merged and the appropriate labels/column names were added to the data frame from the "features.txt" and "labels.txt" files. We then selected only the data for the mean value and standard deviation of each measurement. 
+
+Each initial column name comprised several different variables, e.g. whether the measurement had been obtained via the accelerometer or gyroscope, whether the measurement referred to the body motion or gravity component etc. The columns thus needed to be separated. The column names were first "cleaned" and standardised for easier separation. The data were then gathered and separated using tidyr functions. 
+
+Finally, the data were grouped by variable and the mean value taken. 
